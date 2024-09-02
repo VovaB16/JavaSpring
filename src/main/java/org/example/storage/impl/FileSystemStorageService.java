@@ -1,5 +1,6 @@
 package org.example.storage.impl;
 
+import org.example.service.FileSaveFormat;
 import org.example.storage.StorageProperties;
 import org.example.storage.StorageService;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,11 @@ public class FileSystemStorageService implements StorageService {
             Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
         }
         return randomFileName;
+    }
+
+    @Override
+    public String saveImage(MultipartFile file, FileSaveFormat format) throws IOException {
+        return "";
     }
 
     private String getFileExtension(MultipartFile file) {
