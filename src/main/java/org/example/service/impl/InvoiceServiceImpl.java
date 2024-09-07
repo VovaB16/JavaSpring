@@ -24,7 +24,7 @@ public class InvoiceServiceImpl implements IInvoiceService {
     public Invoice saveInvoice(InvoiceCreateDTO dto) {
         try {
             Invoice invoice = new Invoice();
-            invoice.setId(dto.getName());
+            invoice.setId(Long.valueOf(dto.getName()));
             invoice.setLocation(dto.getLocation());
             invoice.setAmount(dto.getAmount());
             var imageName = storageService.save(dto.getDocument());

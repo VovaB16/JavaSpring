@@ -30,7 +30,7 @@ public class CategoryController {
         try {
             CategoryEntity entity = categoryMapper.categoryEntityByCategoryCreateDTO(dto);
             entity.setCreationTime(LocalDateTime.now());
-            String fileName = storageService.saveImage(dto.getFile(), FileSaveFormat.WEBP);
+            String fileName = storageService.saveImage(dto.getImage(), FileSaveFormat.WEBP);
             entity.setImage(fileName);
             categoryRepository.save(entity);
 //            var result = categoryMapper.categoryItemDTO(entity);
