@@ -9,5 +9,4 @@ public class InvoiceCreateDTO {
     private String location;
     private MultipartFile document;
     private Double amount;
-
 }
