@@ -33,28 +33,25 @@ public class ProductSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws IOException {
         if (categoryRepository.count() == 0) {
-            int categoryCount = 3; //кільскість категорій
-            //мінімальна і максимальна кількість фото для 1 товару
+            int categoryCount = 10;
             int min = 3;
             int max = 5;
             int productsPerCategoryCount = 5;
-            //Кількість усіх фото, які потрібно зробити
             int imageCount = categoryCount * (1 + (productsPerCategoryCount * max));
             ExecutorService executor = Executors.newFixedThreadPool(20);
-            //список задач, які потрібно виконати
             List<CompletableFuture<String>> imagesFutures = new ArrayList<>();
             for (int i = 0; i < imageCount; i++) {
                 imagesFutures.add(
                         CompletableFuture.supplyAsync(() -> {
                             try {
-                                return storageService.saveImage("https://picsum.photos/1200/800", FileSaveFormat.WEBP);
+                                return storageService.saveImages("https://picsum.photos/300/300", FileSaveFormat.WEBP);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
                         }, executor)
                 );
             }
-            //Фото закачують з мережі і зберігають у папку
+
             // Очікуємо завершення всіх завантажень зображень
             CompletableFuture<Void> allImages = CompletableFuture.allOf(imagesFutures.toArray(new CompletableFuture[0]));
 
@@ -65,14 +62,14 @@ public class ProductSeeder implements CommandLineRunner {
                         .toList();
                 executor.shutdown();
                 List<CategoryEntity> categories = new ArrayList<>();
-                int imageIndex = 0; //початкова позиція назви фото
+                int imageIndex = 0;
 
                 for (int i = 0; i < categoryCount; i++) {
                     // Створюємо нову категорію
                     CategoryEntity category = new CategoryEntity(
                             0,
                             faker.commerce().productName(),
-                            imagesUrls.get(imageIndex++), //зберігаєммо фото для категорій - їхні імена
+                            imagesUrls.get(imageIndex++),
                             faker.lorem().sentence(10),
                             LocalDateTime.now(),
                             new ArrayList<>()
@@ -124,6 +121,9 @@ public class ProductSeeder implements CommandLineRunner {
                 System.err.println("Помилка при збереженні категорій: " + ex.getMessage());
                 return null;
             });
+
+
         }
     }
+
 }

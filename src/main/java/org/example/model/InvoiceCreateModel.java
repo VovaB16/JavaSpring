@@ -1,26 +1,19 @@
 package org.example.model;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
-@Entity
 @Data
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Invoice {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class InvoiceCreateModel {
+    //private Long id;
     private String name;
     private String location;
+    private MultipartFile image;
     private Double amount;
-    public String image;
 }
